@@ -25,7 +25,7 @@
 <?php
 	
 	while ($row = mysqli_fetch_assoc($result)) {
-		echo '<h1 class="page-title">' . $row['menu_name'] . '</h1>';
+		echo '<h1 class="page-title">' . $row[1] . '</h1>';
 
 	}
 	mysqli_free_result($result);
