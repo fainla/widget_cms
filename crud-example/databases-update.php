@@ -9,14 +9,18 @@
 	if (mysqli_connect_errno()) {
 			die("Database connection failed: " . mysqli_connect_error() . " (" . mysqli_connect_errno() . ").");
 	}
+$id = $_GET['id'];
 
 	if (isset($_POST['submit'])){
 	$menu_name = $_POST['menu_name'];
 	$position = $_POST['position'];
 	$visible = $_POST['visible'];
 
-	$query = "INSERT INTO subjects (menu_name, position, visible)
-           VALUES ('{$menu_name}', '{$position}', '{$visible}')";
+	  $query = "UPDATE subjects SET
+            menu_name = '{$menu_name}',
+            position = {$position},
+            visible = {$visible}
+            WHERE id = {$id}";
 	$result = mysqli_query($connect, $query);
 	
   if ($result) {
@@ -24,7 +28,16 @@
   } else {
     $answer = "Ebaõnnestus";
   }
+}else {
+	$query = "SELECT * FROM subjects WHERE id = $id";
+	$result = mysqli_query($connect, $query);
+	$row = mysqli_fetch_assoc($result);
+
+	$menu_name = $row['menu_name'];
+	$position = $row['position'];
+	$visible = $row['visible'];
 }
+
 ?>
 
 
@@ -49,9 +62,9 @@ echo $answer;
 
 <?php print_r($_POST); ?>
 </pre>
-<form action="databases-create.php" method="post">
+<form action="databases-update.php?id=<?php echo $id;?>" method="post">
 <label for="menu-name" >Teema nimi:</label>
-<input id="menu-name" type="text" name="menu_name"></input>
+<input id="menu-name" type="text" name="menu_name" value= "<?php echo $menu_name ?>"></input>
 
 <label for="position" >Positsioon:</label>
 <select id="postition" name ="position">
@@ -64,7 +77,7 @@ echo $answer;
 
 </select>
 <label for="visible" >Nähtavus:</label>
-<!--<input id="visible" type="number" name="visible"></input>f.ainla page>-->
+
 <select id="visible" name="visible">
 
 <option value="1">Nähtav</option>
