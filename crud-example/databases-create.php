@@ -1,14 +1,6 @@
 <?php 
-	$dbhost = "localhost";
-	$dbuser = "widget_cms";
-	$dbpass = "secretpassword";
-	$dbname = "widget_corp";
 
-	$connect = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-
-	if (mysqli_connect_errno()) {
-			die("Database connection failed: " . mysqli_connect_error() . " (" . mysqli_connect_errno() . ").");
-	}
+require('components/config.php');
 
 	if (isset($_POST['submit'])){
 	$menu_name = $_POST['menu_name'];
@@ -41,14 +33,8 @@
 if (isset($_POST['submit'])){
 echo $answer;
 }
-
-
 ?>
 
-<pre>
-
-<?php print_r($_POST); ?>
-</pre>
 <form action="databases-create.php" method="post">
 <label for="menu-name" >Teema nimi:</label>
 <input id="menu-name" type="text" name="menu_name"></input>
@@ -76,7 +62,7 @@ echo $answer;
 
 
 </form>
-
+<a href="index.php">Mine tagasi</a>
   </body>
 
   </html>

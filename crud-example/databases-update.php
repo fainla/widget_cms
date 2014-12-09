@@ -1,14 +1,9 @@
 <?php 
-	$dbhost = "localhost";
-	$dbuser = "widget_cms";
-	$dbpass = "secretpassword";
-	$dbname = "widget_corp";
 
-	$connect = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-
-	if (mysqli_connect_errno()) {
-			die("Database connection failed: " . mysqli_connect_error() . " (" . mysqli_connect_errno() . ").");
-	}
+if (!isset($_GET['id'])) {
+	header('location:index.php');
+}
+require('components/config.php');
 $id = $_GET['id'];
 
 	if (isset($_POST['submit'])){
@@ -46,6 +41,9 @@ $id = $_GET['id'];
   <head>
   <meta http-equiv="Content-Type" content="text/html; charset= utf-8">
   <title>databases</title>
+  <?php if (isset ($_POST ['submit'])) { ?>
+<meta http-equiv="refresh" content ="2; url=index.php">
+  <?php } ?>
    </head>
   <body>
 
@@ -58,10 +56,7 @@ echo $answer;
 
 ?>
 
-<pre>
-
-<?php print_r($_POST); ?>
-</pre>
+<?php if (!isset($_POST['submit'])) { ?>
 <form action="databases-update.php?id=<?php echo $id;?>" method="post">
 <label for="menu-name" >Teema nimi:</label>
 <input id="menu-name" type="text" name="menu_name" value= "<?php echo $menu_name ?>"></input>
@@ -70,7 +65,7 @@ echo $answer;
 <select id="postition" name ="position">
 	<?php for ($i=1; $i < 16; $i++) {  ?>
 
-	<option value="<?php echo $i;?>"><?php echo $i;?></option>
+	<option value="<?php echo $i;?>"<?php if ($i == $position){echo "selected";}?>><?php echo $i;?></option>
 
 	<?php } ?>
 
@@ -80,8 +75,8 @@ echo $answer;
 
 <select id="visible" name="visible">
 
-<option value="1">Nähtav</option>
-<option value="0">Peidetud</option>
+<option value="1"<?php if ($visible == 0) { echo "selected"; } ?>>Nähtav</option>
+<option value="0"<?php if ($visible == 1) { echo "selected"; }; ?>>Peidetud</option>
 
 </select>
 
@@ -89,6 +84,8 @@ echo $answer;
 
 
 </form>
+<a href="index.php">Mine tagasi</a>
+<?php } ?>
 
   </body>
 
